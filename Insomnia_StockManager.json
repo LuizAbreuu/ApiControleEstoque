@@ -1,0 +1,107 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-08T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023",
+  "resources": [
+    {
+      "_id": "wrk_1",
+      "parentId": null,
+      "name": "StockManager API",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_1",
+      "parentId": "wrk_1",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "https://localhost:7192/api"
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "wrk_1",
+      "url": "{{ _.base_url }}/auth/login",
+      "name": "1. Auth - Login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@stockmanager.com\",\n  \"password\": \"Admin@123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_product",
+      "parentId": "wrk_1",
+      "url": "{{ _.base_url }}/products",
+      "name": "2. Products - Create",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Notebook Dell Inspiron\",\n  \"description\": \"Notebook 15 polegadas\",\n  \"price\": 3500.00,\n  \"sku\": \"NOTE-DELL-001\",\n  \"barcode\": \"1234567890123\",\n  \"minimumStock\": 5,\n  \"unitMeasure\": 0,\n  \"categoryId\": \"COLE_O_ID_DA_CATEGORIA_GERAL_AQUI\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer COLE_SEU_TOKEN_AQUI"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_stock_entry",
+      "parentId": "wrk_1",
+      "url": "{{ _.base_url }}/stock/entry",
+      "name": "3. Stock - Entry (Testa validade e quantidade)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"productId\": \"COLE_O_ID_DO_PRODUTO_AQUI\",\n  \"batchNumber\": \"LOTE-001\",\n  \"quantity\": 50,\n  \"expirationDate\": \"2027-12-31T00:00:00Z\",\n  \"observation\": \"Entrada inicial\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer COLE_SEU_TOKEN_AQUI"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_stock_output",
+      "parentId": "wrk_1",
+      "url": "{{ _.base_url }}/stock/output",
+      "name": "4. Stock - Output (Testa FIFO e Falta de Estoque)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"productId\": \"COLE_O_ID_DO_PRODUTO_AQUI\",\n  \"quantity\": 5,\n  \"observation\": \"Venda na loja\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer COLE_SEU_TOKEN_AQUI"
+        }
+      ],
+      "_type": "request"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.csproj.AssemblyReference.cache
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.AssemblyInfoInputs.cache
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.AssemblyInfo.cs
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.csproj.CoreCompileInputs.cache
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\bin\Debug\net10.0\StockManager.Application.deps.json
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\bin\Debug\net10.0\StockManager.Application.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\bin\Debug\net10.0\StockManager.Application.pdb
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\bin\Debug\net10.0\StockManager.Domain.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\bin\Debug\net10.0\StockManager.Domain.pdb
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockMan.16EC2720.Up2Date
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\refint\StockManager.Application.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\StockManager.Application.pdb
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Application\obj\Debug\net10.0\ref\StockManager.Application.dll

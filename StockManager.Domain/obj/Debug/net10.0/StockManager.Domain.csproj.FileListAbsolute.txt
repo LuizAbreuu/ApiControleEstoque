@@ -1,0 +1,11 @@
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\bin\Debug\net10.0\StockManager.Domain.deps.json
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\bin\Debug\net10.0\StockManager.Domain.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\bin\Debug\net10.0\StockManager.Domain.pdb
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.AssemblyInfoInputs.cache
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.AssemblyInfo.cs
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.csproj.CoreCompileInputs.cache
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\refint\StockManager.Domain.dll
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\StockManager.Domain.pdb
+C:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\StockManager.Domain\obj\Debug\net10.0\ref\StockManager.Domain.dll
