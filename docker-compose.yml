@@ -6,11 +6,25 @@ services:
     container_name: stockmanager-db
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=StockManager@123
+      - SA_PASSWORD=${DB_PASSWORD}
     ports:
       - "1433:1433"
     volumes:
       - sqlvolume:/var/opt/mssql
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stockmanager-api
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=${DB_NAME};User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Jwt__Secret=${JWT_SECRET}
+    ports:
+      - "8080:8080"
 
 volumes:
   sqlvolume:

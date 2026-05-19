@@ -1,2 +1,27 @@
+# Ignorar arquivos do ambiente
+.env
+.env.*
+!.env.example
+
+# Configurações locais do Agente
 .agents
 .skills-lock.json
+.antigravityignore
+
+# Binários e arquivos de build do .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+.vs/
+.vscode/
+
+# Arquivos de log e testes
+*.log
+TestResults/
+
+# Docker
+.dockerignore
