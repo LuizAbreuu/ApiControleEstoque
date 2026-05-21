@@ -3,6 +3,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white" alt=".NET 10.0" />
   <img src="https://img.shields.io/badge/C%23-13.0-239120?logo=csharp&logoColor=white" alt="C# 13.0" />
+  <img src="https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoft-sql-server&logoColor=white" alt="SQL Server" />
   <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker" />
   <img src="https://img.shields.io/badge/Clean_Architecture-Success" alt="Clean Architecture" />
@@ -10,7 +12,7 @@
 
 ## 🚀 Sobre o Projeto
 
-O **StockManager API** é um sistema robusto de back-end desenvolvido para gerenciar operações de controle de estoque. Ele foi projetado focando em alta coesão, baixo acoplamento e adoção das melhores práticas de mercado (SOLID e Design Patterns), garantindo que as regras de negócios de inventário, como controle de entrada e saída (FIFO), sejam rigorosamente mantidas e validadas.
+O **StockManager** é um sistema completo (Fullstack) de controle de estoque. O back-end (API) foi projetado focando em alta coesão, baixo acoplamento e adoção das melhores práticas de mercado (SOLID e Design Patterns), garantindo que as regras de negócios de inventário sejam rigorosamente mantidas. O front-end é uma aplicação web moderna e responsiva construída para oferecer a melhor experiência de usuário na gestão do inventário.
 
 ---
 
@@ -28,7 +30,7 @@ Este projeto segue os princípios da **Clean Architecture** (Arquitetura Limpa),
 
 ## 📁 Estrutura de Pastas
 
-A estrutura da solução reflete a divisão de responsabilidades da Clean Architecture:
+A estrutura da solução é dividida entre o Back-end (Clean Architecture) e o Front-end:
 
 ```text
 📦 ApiControleEstoque (Root)
@@ -36,6 +38,7 @@ A estrutura da solução reflete a divisão de responsabilidades da Clean Archit
  ┣ 📂 StockManager.Application   # Services, Interfaces de Aplicação, DTOs, Mappers
  ┣ 📂 StockManager.CrossCutting  # Injeção de Dependência (IoC), Autenticação
  ┣ 📂 StockManager.Domain        # Entidades, Enums, Interfaces de Repositório
+ ┣ 📂 StockManager.Frontend      # Aplicação Web (Next.js, React, Tailwind CSS)
  ┣ 📂 StockManager.Infrastructure# Contexto (EF Core), Mapeamentos (Fluent API), Migrations
  ┣ 📂 StockManager.Tests         # Testes de Unidade e Integração (xUnit, Moq)
  ┣ 📜 docker-compose.yml         # Container do SQL Server
@@ -49,6 +52,7 @@ A estrutura da solução reflete a divisão de responsabilidades da Clean Archit
 
 O projeto utiliza um stack moderno, focado em performance, segurança e confiabilidade:
 
+### Back-end (API)
 * **Linguagem:** C# (.NET 10.0)
 * **Banco de Dados:** Microsoft SQL Server (via Docker)
 * **ORM:** Entity Framework Core 10.0.7
@@ -56,11 +60,19 @@ O projeto utiliza um stack moderno, focado em performance, segurança e confiabi
   * JWT (JSON Web Token) - Autenticação da API.
   * BCrypt.Net-Next - Hash e verificação segura de senhas.
 * **Validação de Dados:** FluentValidation.AspNetCore
-* **Testes Automatizados:** 
-  * xUnit (Framework de testes)
-  * Moq (Criação de mocks para testes unitários isolados)
-  * FluentAssertions (Escrita de asserções fluentes e legíveis)
-* **Outros:** Docker & Docker Compose para conteinerização rápida de serviços de infra.
+* **Testes Automatizados:** xUnit, Moq, FluentAssertions
+
+### Front-end (Web)
+* **Framework:** Next.js 16 (App Router)
+* **Biblioteca UI:** React 19
+* **Estilização e Componentes:** Tailwind CSS, shadcn/ui, Lucide React
+* **Gerenciamento de Estado:** Zustand
+* **Requisições HTTP:** Axios, TanStack React Query
+* **Formulários e Validação:** React Hook Form, Zod
+* **Gráficos:** Recharts
+
+### Outros
+* Docker & Docker Compose para conteinerização rápida de serviços de infra.
 
 ---
 
@@ -68,6 +80,7 @@ O projeto utiliza um stack moderno, focado em performance, segurança e confiabi
 
 ### Pré-requisitos
 * [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) instalado.
+* [Node.js](https://nodejs.org/) (versão 20+ recomendada).
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) rodando.
 * IDE de sua preferência (Visual Studio 2022, VS Code, Rider).
 
@@ -84,7 +97,7 @@ O projeto utiliza um stack moderno, focado em performance, segurança e confiabi
    docker-compose up -d
    ```
 
-3. **Restaure os pacotes e aplique as Migrations:**
+3. **Restaure os pacotes e aplique as Migrations da API:**
    Dentro da pasta `StockManager.API`, aplique as tabelas ao banco de dados:
    ```bash
    cd StockManager.API
@@ -97,9 +110,18 @@ O projeto utiliza um stack moderno, focado em performance, segurança e confiabi
    ```bash
    dotnet run
    ```
-   A API estará rodando, pronta para receber requisições através do Swagger (se configurado) ou através da collection do Insomnia (`Insomnia_StockManager.json` na raiz do projeto).
+   A API estará rodando, pronta para receber requisições através do Swagger ou da collection do Insomnia (`Insomnia_StockManager.json`).
 
-5. **Testes (Opcional):**
+5. **Inicie o Front-end:**
+   Em um novo terminal, navegue até a pasta do front-end, instale as dependências e rode o servidor de desenvolvimento:
+   ```bash
+   cd StockManager.Frontend
+   npm install
+   npm run dev
+   ```
+   A aplicação web estará acessível em `http://localhost:3000`.
+
+6. **Testes do Back-end (Opcional):**
    Para rodar todos os testes automatizados da aplicação, na pasta raiz:
    ```bash
    dotnet test
