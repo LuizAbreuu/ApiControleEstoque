@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Configure IoC
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -56,7 +57,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // Swagger temporariamente desabilitado devido a conflito de preview .NET 10
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseMiddleware<GlobalExceptionMiddleware>();

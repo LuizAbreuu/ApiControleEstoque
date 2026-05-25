@@ -1,6 +1,8 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StockManager.Application.DTOs.Auth;
-using StockManager.Application.Interfaces;
+using StockManager.Application.UseCases.Auth.Commands.Login;
+using StockManager.Application.UseCases.Auth.Commands.RefreshToken;
 
 namespace StockManager.API.Controllers;
 
@@ -8,24 +10,32 @@ namespace StockManager.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly IMediator _mediator;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IMediator mediator)
     {
-        _authService = authService;
+        _mediator = mediator;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
-        var result = await _authService.LoginAsync(request);
-        return Ok(result);
+        var result = await _mediator.Send(new LoginCommand(request.Email, request.Password));
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { Error = result.Error, Code = result.ErrorCode });
+        }
+        return Ok(result.Value);
     }
 
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
     {
-        var result = await _authService.RefreshTokenAsync(request);
-        return Ok(result);
+        var result = await _mediator.Send(new RefreshTokenCommand(request.RefreshToken));
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { Error = result.Error, Code = result.ErrorCode });
+        }
+        return Ok(result.Value);
     }
 }

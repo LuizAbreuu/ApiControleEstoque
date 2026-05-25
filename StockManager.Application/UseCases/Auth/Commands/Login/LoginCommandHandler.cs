@@ -1,14 +1,15 @@
+using MediatR;
 using Microsoft.Extensions.Configuration;
+using StockManager.Application.Common;
 using StockManager.Application.DTOs.Auth;
 using StockManager.Application.Interfaces;
 using StockManager.Domain.Entities;
-using StockManager.Domain.Exceptions;
 using StockManager.Domain.Interfaces;
 using StockManager.Domain.Interfaces.Repositories;
 
-namespace StockManager.Application.Services;
+namespace StockManager.Application.UseCases.Auth.Commands.Login;
 
-public class AuthService : IAuthService
+public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResponseDto>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -17,7 +18,7 @@ public class AuthService : IAuthService
     private readonly ITokenService _tokenService;
     private readonly IConfiguration _configuration;
 
-    public AuthService(
+    public LoginCommandHandler(
         IUserRepository userRepository,
         IRefreshTokenRepository refreshTokenRepository,
         IUnitOfWork unitOfWork,
@@ -33,46 +34,20 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<AuthResponseDto> LoginAsync(LoginRequestDto request)
+    public async Task<Result<AuthResponseDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
         if (user == null || !_passwordHasher.Verify(request.Password, user.PasswordHash))
         {
-            throw new BusinessException("E-mail ou senha inválidos.");
+            return Result<AuthResponseDto>.Failure("E-mail ou senha inválidos.", "UNAUTHORIZED");
         }
 
-        return await GenerateAuthResponseAsync(user);
-    }
-
-    public async Task<AuthResponseDto> RefreshTokenAsync(RefreshTokenRequestDto request)
-    {
-        var refreshToken = await _refreshTokenRepository.GetByTokenAsync(request.RefreshToken);
-
-        if (refreshToken == null || refreshToken.IsExpired)
-        {
-            throw new BusinessException("Refresh Token inválido ou expirado.");
-        }
-
-        var user = refreshToken.User;
-        if (user == null || !user.Active)
-        {
-            throw new BusinessException("Usuário inválido ou inativo.");
-        }
-
-        // Revogar token atual (deleta ou marca como inativo)
-        _refreshTokenRepository.Delete(refreshToken);
-
-        return await GenerateAuthResponseAsync(user);
-    }
-
-    private async Task<AuthResponseDto> GenerateAuthResponseAsync(User user)
-    {
         var accessToken = _tokenService.GenerateAccessToken(user);
         var refreshTokenStr = _tokenService.GenerateRefreshToken();
         var expiresInMinutes = int.Parse(_configuration["Jwt:ExpirationInMinutes"] ?? "60");
         var refreshTokenExpirationDays = int.Parse(_configuration["Jwt:RefreshTokenExpirationInDays"] ?? "7");
 
-        var refreshToken = new RefreshToken
+        var refreshToken = new StockManager.Domain.Entities.RefreshToken
         {
             Token = refreshTokenStr,
             UserId = user.Id,
@@ -82,7 +57,7 @@ public class AuthService : IAuthService
         await _refreshTokenRepository.AddAsync(refreshToken);
         await _unitOfWork.CommitAsync();
 
-        return new AuthResponseDto
+        var response = new AuthResponseDto
         {
             AccessToken = accessToken,
             RefreshToken = refreshTokenStr,
@@ -95,5 +70,7 @@ public class AuthService : IAuthService
                 Role = user.Role.ToString()
             }
         };
+
+        return Result<AuthResponseDto>.Success(response);
     }
 }

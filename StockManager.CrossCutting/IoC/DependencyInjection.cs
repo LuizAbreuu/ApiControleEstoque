@@ -40,12 +40,15 @@ public static class DependencyInjection
 
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        // MediatR Configuration
+        services.AddMediatR(cfg => {
+            cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(StockManager.Application.Common.Result).Assembly);
+            cfg.AddOpenBehavior(typeof(StockManager.Application.Common.Behaviors.ValidationBehavior<,>));
+        });
+
         // Services
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<IStockService, StockService>();
-        services.AddScoped<IReportService, ReportService>();
 
         return services;
     }

@@ -1,66 +1,22 @@
 using ClosedXML.Excel;
-using StockManager.Application.DTOs.Products;
-using StockManager.Application.DTOs.Stock;
-using StockManager.Application.Interfaces;
+using MediatR;
+using StockManager.Application.Common;
 using StockManager.Domain.Interfaces.Repositories;
 
-namespace StockManager.Application.Services;
+namespace StockManager.Application.UseCases.Reports.Queries.ExportInventoryToExcel;
 
-public class ReportService : IReportService
+public class ExportInventoryToExcelQueryHandler : IRequestHandler<ExportInventoryToExcelQuery, Result<byte[]>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IProductBatchRepository _productBatchRepository;
 
-    public ReportService(IProductRepository productRepository, IProductBatchRepository productBatchRepository)
+    public ExportInventoryToExcelQueryHandler(IProductRepository productRepository, IProductBatchRepository productBatchRepository)
     {
         _productRepository = productRepository;
         _productBatchRepository = productBatchRepository;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetLowStockProductsAsync()
-    {
-        var products = await _productRepository.GetAllAsync();
-        var lowStockProducts = new List<ProductDto>();
-
-        foreach (var product in products)
-        {
-            var batches = await _productBatchRepository.GetByProductIdAsync(product.Id);
-            var currentStock = batches.Sum(x => x.Quantity);
-
-            if (currentStock <= product.MinimumStock)
-            {
-                lowStockProducts.Add(new ProductDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Sku = product.Sku,
-                    MinimumStock = product.MinimumStock,
-                    CurrentStock = currentStock
-                });
-            }
-        }
-
-        return lowStockProducts;
-    }
-
-    public async Task<IEnumerable<StockEntryDto>> GetExpiredBatchesAsync()
-    {
-        var allBatches = await _productBatchRepository.GetAllAsync();
-        
-        var expiredBatches = allBatches
-            .Where(x => x.Quantity > 0 && x.ExpirationDate.Date < DateTime.UtcNow.Date)
-            .Select(x => new StockEntryDto
-            {
-                ProductId = x.ProductId,
-                BatchNumber = x.BatchNumber,
-                Quantity = x.Quantity,
-                ExpirationDate = x.ExpirationDate
-            }).ToList();
-
-        return expiredBatches;
-    }
-
-    public async Task<byte[]> ExportInventoryToExcelAsync()
+    public async Task<Result<byte[]>> Handle(ExportInventoryToExcelQuery request, CancellationToken cancellationToken)
     {
         var products = await _productRepository.GetAllAsync();
         
@@ -74,7 +30,6 @@ public class ReportService : IReportService
         worksheet.Cell(1, 5).Value = "Estoque Atual";
         worksheet.Cell(1, 6).Value = "Status";
 
-        // Estilizar Cabeçalho
         var headerRange = worksheet.Range("A1:F1");
         headerRange.Style.Font.Bold = true;
         headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
@@ -106,6 +61,6 @@ public class ReportService : IReportService
 
         using var stream = new MemoryStream();
         workbook.SaveAs(stream);
-        return stream.ToArray();
+        return Result<byte[]>.Success(stream.ToArray());
     }
 }

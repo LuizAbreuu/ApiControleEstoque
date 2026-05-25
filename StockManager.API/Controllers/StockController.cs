@@ -1,8 +1,10 @@
 using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockManager.Application.DTOs.Stock;
-using StockManager.Application.Interfaces;
+using StockManager.Application.UseCases.Stock.Commands.StockEntry;
+using StockManager.Application.UseCases.Stock.Commands.StockOutput;
 
 namespace StockManager.API.Controllers;
 
@@ -11,18 +13,22 @@ namespace StockManager.API.Controllers;
 [Authorize]
 public class StockController : ControllerBase
 {
-    private readonly IStockService _stockService;
+    private readonly IMediator _mediator;
 
-    public StockController(IStockService stockService)
+    public StockController(IMediator mediator)
     {
-        _stockService = stockService;
+        _mediator = mediator;
     }
 
     [HttpPost("entry")]
     public async Task<IActionResult> Entry([FromBody] StockEntryDto request)
     {
         var userId = GetCurrentUserId();
-        await _stockService.EntryAsync(request, userId);
+        var result = await _mediator.Send(new StockEntryCommand(request, userId));
+        
+        if (!result.IsSuccess)
+            return BadRequest(new { Error = result.Error, Code = result.ErrorCode });
+
         return Ok(new { Message = "Entrada registrada com sucesso." });
     }
 
@@ -30,7 +36,11 @@ public class StockController : ControllerBase
     public async Task<IActionResult> Output([FromBody] StockOutputDto request)
     {
         var userId = GetCurrentUserId();
-        await _stockService.OutputAsync(request, userId);
+        var result = await _mediator.Send(new StockOutputCommand(request, userId));
+
+        if (!result.IsSuccess)
+            return BadRequest(new { Error = result.Error, Code = result.ErrorCode });
+
         return Ok(new { Message = "Saída registrada com sucesso." });
     }
 
