@@ -1,0 +1,86 @@
+<USER_REQUEST>
+vamos refazer o frontend seguindo as spec que irei mandar logo abaixo, tem que usar as skill dos agents   /frontend-design /next-best-practices /tailwind-design-system /vercel-react-best-practices .
+
+Você é um engenheiro de software sênior especializado em React, Next.js, TypeScript, arquitetura frontend escalável e integração com APIs enterprise em .NET.
+
+Sua tarefa é construir o frontend completo de um sistema chamado Stock Manager Web, que irá consumir uma API já existente de gerenciamento de estoque.
+
+IMPORTANTE:
+- Gere código limpo, modular e escalável.
+- Siga boas práticas de arquitetura frontend.
+- Não concentre lógica de negócio em componentes de página.
+- Organize o projeto por domínio/módulo.
+- Utilize TypeScript de forma forte.
+- Crie componentes reutilizáveis.
+- Prepare o projeto para crescimento futuro.
+- O frontend deve ter aparência corporativa, moderna, limpa e profissional.
+- O foco é produtividade operacional, não landing page.
+
+==================================================
+1. CONTEXTO DO PROJETO
+==================================================
+
+O projeto é um sistema web administrativo de gerenciamento de estoque com foco enterprise.
+
+O backend já existe e foi desenvolvido em:
+- ASP.NET Core Web API
+- SQL Server
+- JWT Authentication
+- Clean Architecture
+- DDD
+- Regras de estoque por lotes
+- Controle de validade
+- FIFO
+- Controle de acesso por perfis
+
+O frontend deve consumir essa API e oferecer uma experiência de uso corporativa.
+
+==================================================
+2. OBJETIVO DO FRONTEND
+==================================================
+
+Construir uma aplicação web administrativa que permita:
+
+- login com JWT
+- dashboard operacional
+- listagem e gestão de produtos
+- visualização e gestão de lotes
+- movimentações de estoque
+- relatórios
+- exportação de arquivos
+- gestão de usuários
+- controle de acesso por perfil
+
+==================================================
+3. STACK OBRIGATÓRIA
+=================================
+<truncated 11913 bytes>
+=====================
+21. RESULTADO FINAL ESPERADO
+==================================================
+
+O resultado deve ser um frontend enterprise-ready, moderno, limpo, escalável e alinhado com a API de estoque, preparado para uso real, portfólio avançado e evolução futura.
+
+Comece pela fundação do projeto e entregue de forma incremental, priorizando primeiro a base arquitetural, autenticação, layout e módulo de produtos.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-25T19:13:50-03:00.
+
+The user has mentioned some items in the form @[ITEM]. Here is extra information about the items that were mentioned by the user, in the order that they appear:
+
+/frontend-design is a [Slash Command]:
+<SKILL>The user requested you read and use the "frontend-design" skill. The path to the skill file is:
+c:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\.agents\skills\frontend-design\SKILL.md</SKILL>
+/next-best-practices is a [Slash Command]:
+<SKILL>The user requested you read and use the "next-best-practices" skill. The path to the skill file is:
+c:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\.agents\skills\next-best-practices\SKILL.md</SKILL>
+/tailwind-design-system is a [Slash Command]:
+<SKILL>The user requested you read and use the "tailwind-design-system" skill. The path to the skill file is:
+c:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\.agents\skills\tailwind-design-system\SKILL.md</SKILL>
+/vercel-react-best-practices is a [Slash Command]:
+<SKILL>The user requested you read and use the "vercel-react-best-practices" skill. The path to the skill file is:
+c:\Users\luiz_\OneDrive\Documentos\ApiControleEstoque\.agents\skills\vercel-react-best-practices\SKILL.md</SKILL>
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

@@ -1,0 +1,31 @@
+# Conclusão da Fase 2: Layout Base e Autenticação
+
+A **Fase 2** foi concluída com sucesso. Estabelecemos a fundação visual da interface administrativa e as bases para o gerenciamento seguro de sessões através de JWT.
+
+## O que foi implementado:
+
+### 1. Componentes de UI (shadcn/ui)
+Instalamos via CLI todos os componentes de fundação necessários para o painel administrativo:
+- Form, Input, Label, Card, Tooltip, Sonner (Toasts)
+- Sidebar, DropdownMenu, Avatar, Separator, Skeleton, Sheet
+
+### 2. Módulo de Autenticação (`src/modules/auth`)
+- **Schemas**: Criação do `auth.schema.ts` com validação rigorosa (Zod) para login, garantindo formato de email e senha.
+- **Tipagem**: Definição da interface `User` e `AuthResponse`.
+- **Service**: Criação do `authService` integrado ao serviço global `api.ts` (Axios) configurado com Interceptors para injetar o Bearer Token em todas as requisições subsequentes.
+
+### 3. Página de Login (`/login`)
+- Interface centralizada utilizando os novos componentes (Card, Form).
+- Lógica de formulário reativa com `react-hook-form` acoplado ao `zodResolver`.
+- Fluxo de login e injeção do JWT no store de sessão (Zustand).
+
+### 4. Layout Global e Proteção de Rotas (`AppShell`)
+- Criação dos layouts `AppSidebar`, `AppHeader` e `AppShell`.
+- Redirecionamento configurado na raiz (`/`) para acessar o painel em `/dashboard`.
+- **AuthGuard**: Componente que protege toda a área administrativa. Utiliza estado hidratado persistido do Zustand (localStorage) e redireciona automaticamente usuários sem token para a página de `/login`.
+
+## Próximos Passos (Fase 3: Dashboard e Home)
+A próxima etapa contempla transformar o placeholder criado no `/dashboard` numa página gerencial completa com os cards de métricas, gráficos e tabela com resumo de movimentações.
+
+> [!TIP]
+> Se quiser ver o visual inicial da aplicação, pode rodar o comando `npm run dev` na pasta `frontend` e acessar `http://localhost:3000`.

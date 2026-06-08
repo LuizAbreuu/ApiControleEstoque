@@ -1,0 +1,9 @@
+# Fase 3: Dashboard e Home
+
+- `[x]` Configurar dependências para o dashboard (`recharts`, e componentes do `shadcn/ui` como `table` e `badge`).
+- `[x]` Criar serviços e hooks (React Query) para buscar métricas (`/products`, `/reports/low-stock`, `/reports/expired`).
+- `[x]` Desenvolver o Layout do Dashboard:
+  - `[x]` Cards Métricos (Total de Produtos, Produtos em Baixa, Lotes Vencidos).
+  - `[x]` Gráficos/Estatísticas visuais usando `recharts`.
+  - `[x]` Tabela resumida demonstrando produtos/lotes que requerem atenção.
+- `[x]` Integrar a página `dashboard/page.tsx` com o estado real e testar responsividade.

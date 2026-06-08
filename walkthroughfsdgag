@@ -1,0 +1,21 @@
+# Fase 6: Controle de Movimentações (Concluído)
+
+A Fase 6 (Movimentações de Estoque) foi 100% implementada no frontend de maneira sólida, conectada à API oficial do `.NET` e alinhada com as restrições e designs da `shadcn/ui` definidos pela *skill* `frontend-design`.
+
+## Alterações Realizadas
+
+### 1. Camada de Comunicação e Domínio (`src/modules/stock`)
+- **Types**: Adicionado os `DTOs` oficiais que o `StockController.cs` no `.NET` espera (`StockEntryDto`, `StockOutputDto`), e um tipo auxiliar (`StockMovement`) usado na simulação da interface visual.
+- **Service**: Implementado o `stockService.ts` com o roteamento `Axios` para `POST /api/stock/entry` e `POST /api/stock/output`. 
+- **Zod Schemas**: Os formulários criados usam as regras de schema para garantir validação correta antes que o submit alcance a API. (Lote obrigatório na Entrada, Quantidade positiva, etc).
+- **TanStack Query (Hooks)**: Criados hooks que atualizam automaticamente os Caches locais de listagem de Lotes (`batches`) e de Estoque de Produtos (`products`) ao finalizar com êxito as requisições de Mutation.
+
+### 2. Layout, Interface e Formulários
+- **`app/(dashboard)/stock/page.tsx`**: A página de rotas para movimentações. Conta com dois grandes "Action Cards" bem destacados visualmente utilizando estilos coloridos (Verde para entrada, Vermelho para saída).
+- **Modais (Dialog)**: Os registros não direcionam para outra página (`/new`); eles abrem *Dialogs* elegantes (`StockEntryForm` e `StockOutputForm`) que não interrompem o fluxo de leitura do usuário, otimizando a produtividade.
+- **Tabela Dinâmica `StockHistoryTable`**: A tabela de *Mock* foi concebida usando `@tanstack/react-table` e implementa `Badges` da interface (Setas verdes para cima em entradas; vermelhas para baixo em saídas). Assim que o endpoint real `GET /api/stock/history` existir, a UI não precisará ser reescrita (é *plug and play*).
+
+## Validações Type-Check (Next.js Build)
+- Todos os erros de conflito do TypeScript entre `Zod` vs `useForm` na conversão do campo numérico foram solucionados.
+- Build oficial foi finalizado sem _warnings_ ou falhas de compilação.
+- O componente primário do shadcn (Tabs, Dialog) foi consolidado no diretório base `ui/` e compatível com as dependências do Radix/BaseUI.

@@ -1,0 +1,62 @@
+# Fase 6: Controle de Movimentações (Stock Movements)
+
+Este documento descreve o plano de implementação para o módulo de movimentações de estoque, responsável por gerenciar as entradas (com lote e validade) e saídas (baixas) de produtos.
+
+## Contexto da API Atual
+O backend `.NET` atualmente possui os seguintes endpoints para movimentações (no `StockController`):
+- `POST /api/stock/entry` (Requer: `ProductId`, `BatchNumber`, `Quantity`, `ExpirationDate`, `Observation`)
+- `POST /api/stock/output` (Requer: `ProductId`, `Quantity`, `Observation`)
+
+> [!NOTE]
+> A API atual ainda não possui um endpoint de relatório/histórico para listar as movimentações passadas (ex: `GET /api/stock/movements`). Portanto, a página principal de movimentações exibirá, por enquanto, um histórico *mockado* (ou ficará focada apenas nos atalhos de operações) até que o endpoint seja criado no backend.
+
+## Open Questions
+
+> [!IMPORTANT]
+> 1. **Histórico de Movimentações**: Como a API não tem rota de histórico, você prefere que eu construa uma Tabela Mockada de histórico na página principal (`/stock`) para já deixar o layout pronto, ou apenas uma página com as duas opções de ação (Nova Entrada / Nova Saída)?
+> 2. **Interface dos Formulários**: Você prefere que o registro de Entrada e Saída seja feito através de Modais (Dialog) na mesma página, ou através de páginas separadas (ex: `/stock/entry-new` e `/stock/output-new`)?
+
+## Proposed Changes
+
+### 1. Camada de Domínio (`src/modules/stock`)
+
+#### [NEW] `types/stock.ts`
+- Definição das interfaces `StockEntryDto` e `StockOutputDto` baseadas nos contratos em C#.
+
+#### [NEW] `schemas/stock.schema.ts`
+- Validações Zod para entrada e saída:
+  - `stockEntrySchema`: Validar `productId`, `batchNumber`, quantidade > 0, etc.
+  - `stockOutputSchema`: Validar `productId` e quantidade > 0.
+
+#### [NEW] `services/stockService.ts`
+- Instância do Axios para enviar chamadas POST para `/api/stock/entry` e `/api/stock/output`.
+
+#### [NEW] `hooks/useStock.ts`
+- Criação das mutations do React Query (`useRegisterEntry`, `useRegisterOutput`) para gerenciar loading e sucesso.
+
+---
+
+### 2. Componentes de UI e Formulários
+
+#### [NEW] `components/StockEntryForm.tsx`
+- Formulário usando `react-hook-form` e `zodResolver`.
+- Precisaremos de um componente "Combobox" (ou Select) que busque a lista de Produtos reais da API para que o usuário escolha o `ProductId`.
+
+#### [NEW] `components/StockOutputForm.tsx`
+- Formulário mais simplificado (não pede lote nem validade).
+- Também utilizará o seletor de produtos.
+
+---
+
+### 3. Rotas (App Router)
+
+#### [MODIFY] `src/app/(dashboard)/stock/page.tsx`
+- Se for decidido usar modals, esta página abrigará os botões e os Dialogs (shadcn) para acionar os formulários.
+- Renderizará a tabela de histórico visual (mockada temporariamente).
+
+## Verification Plan
+
+### Testes Manuais
+- Registrar uma nova Entrada apontando para um produto existente, fornecendo Lote e Validade, e verificar se um alerta de sucesso (Toast) aparece confirmando o status 200 OK.
+- Registrar uma Saída de produto.
+- Verificar se a lista de produtos no Combobox (ou Select) do formulário é carregada corretamente da API de Produtos (reaproveitando o cache do React Query).

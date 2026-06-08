@@ -26,11 +26,11 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
     public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.GetByIdAsync(request.Dto.CategoryId);
+        var category = await _categoryRepository.GetByIdAsync(request.Dto.CategoryId, cancellationToken);
         if (category == null)
             return Result<ProductDto>.Failure("Categoria não encontrada.", "NOT_FOUND");
 
-        if (await _productRepository.ExistsBySkuOrBarcodeAsync(request.Dto.Sku, request.Dto.Barcode))
+        if (await _productRepository.ExistsBySkuOrBarcodeAsync(request.Dto.Sku, request.Dto.Barcode, cancellationToken))
             return Result<ProductDto>.Failure("Já existe um produto com o mesmo SKU ou Código de Barras.", "CONFLICT");
 
         var product = new Product
@@ -59,6 +59,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             MinimumStock = product.MinimumStock,
             UnitMeasure = product.UnitMeasure.ToString(),
             CategoryId = product.CategoryId,
+            CategoryName = category.Name,
             CurrentStock = 0 // Initial stock is 0
         };
 

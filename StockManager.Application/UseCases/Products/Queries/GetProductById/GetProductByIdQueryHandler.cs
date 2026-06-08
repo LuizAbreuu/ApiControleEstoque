@@ -9,22 +9,28 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
 {
     private readonly IProductRepository _productRepository;
     private readonly IProductBatchRepository _productBatchRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public GetProductByIdQueryHandler(IProductRepository productRepository, IProductBatchRepository productBatchRepository)
+    public GetProductByIdQueryHandler(
+        IProductRepository productRepository,
+        IProductBatchRepository productBatchRepository,
+        ICategoryRepository categoryRepository)
     {
         _productRepository = productRepository;
         _productBatchRepository = productBatchRepository;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var products = await _productRepository.FindAsync(x => x.Id == request.Id);
+        var products = await _productRepository.FindAsync(x => x.Id == request.Id, cancellationToken);
         var product = products.FirstOrDefault();
         
         if (product == null)
             return Result<ProductDto>.Failure("Produto não encontrado.", "NOT_FOUND");
 
-        var batches = await _productBatchRepository.GetByProductIdAsync(request.Id);
+        var batches = await _productBatchRepository.GetByProductIdAsync(request.Id, cancellationToken);
+        var category = await _categoryRepository.GetByIdAsync(product.CategoryId, cancellationToken);
         var currentStock = batches.Sum(x => x.Quantity);
 
         return Result<ProductDto>.Success(new ProductDto
@@ -38,6 +44,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
             MinimumStock = product.MinimumStock,
             UnitMeasure = product.UnitMeasure.ToString(),
             CategoryId = product.CategoryId,
+            CategoryName = category?.Name ?? string.Empty,
             CurrentStock = currentStock
         });
     }

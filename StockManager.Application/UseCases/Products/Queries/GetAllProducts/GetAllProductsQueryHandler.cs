@@ -11,16 +11,23 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, R
 {
     private readonly IProductRepository _productRepository;
     private readonly IProductBatchRepository _productBatchRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public GetAllProductsQueryHandler(IProductRepository productRepository, IProductBatchRepository productBatchRepository)
+    public GetAllProductsQueryHandler(
+        IProductRepository productRepository,
+        IProductBatchRepository productBatchRepository,
+        ICategoryRepository categoryRepository)
     {
         _productRepository = productRepository;
         _productBatchRepository = productBatchRepository;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<Result<PagedResult<ProductDto>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
-        var products = await _productRepository.GetAllAsync();
+        var products = await _productRepository.GetAllAsync(cancellationToken);
+        var categories = (await _categoryRepository.GetAllAsync(cancellationToken))
+            .ToDictionary(x => x.Id, x => x.Name);
         
         var totalCount = products.Count();
         
@@ -32,7 +39,7 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, R
         var dtos = new List<ProductDto>();
         foreach(var product in pagedProducts)
         {
-            var batches = await _productBatchRepository.GetByProductIdAsync(product.Id);
+            var batches = await _productBatchRepository.GetByProductIdAsync(product.Id, cancellationToken);
             var currentStock = batches.Sum(x => x.Quantity);
 
             dtos.Add(new ProductDto
@@ -46,6 +53,7 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, R
                 MinimumStock = product.MinimumStock,
                 UnitMeasure = product.UnitMeasure.ToString(),
                 CategoryId = product.CategoryId,
+                CategoryName = categories.GetValueOrDefault(product.CategoryId, string.Empty),
                 CurrentStock = currentStock
             });
         }

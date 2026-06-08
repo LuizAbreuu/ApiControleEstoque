@@ -1,0 +1,12 @@
+# Tasks
+
+- `[x]` Fase 2: Layout Base e Autenticação
+  - `[x]` Implementação dos layouts globais (`AppShell`, `AppSidebar`, `AppHeader`).
+  - `[x]` Criação do módulo de Auth (schemas, services, hooks).
+  - `[x]` Página de Login e lógica de persistência do JWT.
+  - `[x]` Proteção de rotas do painel com hooks de verificação (`useAuth`, `usePermissions`).
+
+- `[ ]` Fase 3: Dashboard e Home
+  - `[ ]` Layout do Dashboard com cards métricos.
+  - `[ ]` Componentes de estatísticas visuais.
+  - `[ ]` Tabela resumida de últimas movimentações.
