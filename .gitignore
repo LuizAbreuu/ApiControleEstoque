@@ -7,6 +7,7 @@
 .agents
 .skills-lock.json
 .antigravityignore
+.specs
 
 # Binários e arquivos de build do .NET
 [Bb]in/

@@ -27,7 +27,7 @@ export function DashboardCharts({ lowStockProducts }: DashboardChartsProps) {
       </CardHeader>
       <CardContent>
         {chartData.length > 0 ? (
-          <div className="h-[300px] w-full">
+          <div className="h-75 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -56,7 +56,7 @@ export function DashboardCharts({ lowStockProducts }: DashboardChartsProps) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <div className="flex h-[300px] items-center justify-center text-muted-foreground">
+          <div className="flex h-75 items-center justify-center text-muted-foreground">
             Nenhum produto crítico no momento.
           </div>
         )}

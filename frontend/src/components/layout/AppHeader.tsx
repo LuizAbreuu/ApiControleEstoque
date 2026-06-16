@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
+import { LogOut } from 'lucide-react';
 
 export function AppHeader() {
   const user = useAuthStore((state) => state.user);
@@ -28,6 +29,10 @@ export function AppHeader() {
       </div>
       
       <div className="flex items-center gap-4">
+        <Button variant="outline" size="sm" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Sair
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger className="relative h-8 w-8 rounded-full outline-none hover:opacity-80 transition-opacity flex items-center justify-center">
             <Avatar className="h-8 w-8">
